@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'constants.dart';
 import 'package:mobilerdev_project/extensions/locale_keys.dart';
-import 'package:mobilerdev_project/extensions/string_extensions.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //await EasyLocalization.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
   runApp(
     EasyLocalization(
-      child: MyApp(),
       supportedLocales: AppConstant.SUPPORTED_LOCALE,
       path: AppConstant.LANG_PATH,
+      fallbackLocale: Locale('tr', 'TR'),
+      child: MyApp(),
     ),
   );
 }
@@ -27,10 +28,11 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
       locale: context.locale,
       home: Scaffold(
         appBar: AppBar(
-          title: Text(LocaleKeys.main_title.locale),
+          title: Text(LocaleKeys.main_title.tr()),
           backgroundColor: Colors.orange,
         ),
         body: Center(
@@ -39,7 +41,7 @@ class _MyAppState extends State<MyApp> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                LocaleKeys.main_bodytext.locale,
+                LocaleKeys.main_bodytext.tr(),
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               IconLanguage()
@@ -67,10 +69,11 @@ class IconLanguage extends StatelessWidget {
                 return AlertDialog(
                   actions: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ElevatedButton(
                             onPressed: () {
-                              context.locale = AppConstant.ES_LOCALE;
+                              context.setLocale(AppConstant.ES_LOCALE);
                             },
                             child: Column(
                               children: [
@@ -80,7 +83,7 @@ class IconLanguage extends StatelessWidget {
                             )),
                         ElevatedButton(
                             onPressed: () {
-                              context.locale = AppConstant.EN_LOCALE;
+                              context.setLocale(AppConstant.EN_LOCALE);
                             },
                             child: Column(
                               children: [
@@ -90,7 +93,7 @@ class IconLanguage extends StatelessWidget {
                             )),
                         ElevatedButton(
                             onPressed: () {
-                              context.locale = AppConstant.TR_LOCALE;
+                              context.setLocale(AppConstant.TR_LOCALE);
                             },
                             child: Column(
                               children: [
@@ -100,7 +103,7 @@ class IconLanguage extends StatelessWidget {
                             )),
                         ElevatedButton(
                             onPressed: () {
-                              context.locale = AppConstant.DE_LOCALE;
+                              context.setLocale(AppConstant.DE_LOCALE);
                             },
                             child: Column(
                               children: [
